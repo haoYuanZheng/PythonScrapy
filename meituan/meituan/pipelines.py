@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+
+# Define your item pipelines here
+#
+# Don't forget to add your pipeline to the ITEM_PIPELINES setting
+# See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+import pymysql
+import json
+
+
+class MeituanPipeline(object):
+    def __init__(self):
+        try:
+            self.conn = pymysql.Connect(host='localhost', user='root', password='13567651173', database='python',
+                                        charset='utf8')
+        except Exception as e:
+            print("连接数据库出错,错误原因%s" % e)
+        self.cur = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        # 爬取详情页链接
+        # params = [item['url']]
+        params = [item['meal_name'], item['meal_type'], item['price'], item['support_items'], item['label'],
+                  item['company'], item['comment']]
+        try:
+            sql = self.cur.execute(
+                # 'insert into detail_url(url)values (%s)',
+                'insert into meituan_data_two(meal_name, meal_type, price, support_items, label, company,comment)values (%s,%s,%s,%s,%s,%s,%s)',
+                params)
+            print(sql)
+            self.conn.commit()
+        except Exception as e:
+            print("插入数据出错,错误原因%s" % e)
+
+    def close_spider(self, spider):
+        with open('page_success.json', 'w') as f:
+            content = json.dumps(spider.page_success_log)
+            f.write(content)
+        self.cur.close()
+        self.conn.close()
