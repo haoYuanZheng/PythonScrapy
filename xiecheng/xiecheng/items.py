@@ -11,3 +11,5 @@ import scrapy
 class XiechengItem(scrapy.Item):
 
     detail_link = scrapy.Field()
+
+    area = scrapy.Field()

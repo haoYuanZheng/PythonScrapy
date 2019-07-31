@@ -18,10 +18,10 @@ class XiechengPipeline(object):
         self.cur = self.conn.cursor()
 
     def process_item(self, item, spider):
-        params = [item['detail_link']]
+        params = [item['detail_link'], item['area']]
         try:
             sql = self.cur.execute(
-                'insert into xqgw_detail_url(detail_link)values (%s)',
+                'insert into xqgw_detail_url(detail_link,area)values (%s,%s)',
                 params)
             print(sql)
             self.conn.commit()

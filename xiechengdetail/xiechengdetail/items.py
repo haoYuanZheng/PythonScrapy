@@ -12,10 +12,10 @@ class XiechengdetailItem(scrapy.Item):
     # 店名+人均消费+店铺类型+地址+电话+营业时间
     name = scrapy.Field()
     address = scrapy.Field()
-    # averageCost = scrapy.Field()
-    # type = scrapy.Field()
-    # phoneNumber = scrapy.Field()
-    # openTime = scrapy.Field()
+    average_cost = scrapy.Field()
+    type = scrapy.Field()
+    phone_number = scrapy.Field()
+    open_time = scrapy.Field()
     # 简介
     introduce = scrapy.Field()
     # 特色美食
@@ -27,4 +27,11 @@ class XiechengdetailItem(scrapy.Item):
     # 附近餐馆
     nearby_resturant = scrapy.Field()
     # 附近团购
-    nearby_group_buy = scrapy.Field()
+    # nearby_group_buy = scrapy.Field()
+
+    # 点评
+    comment = scrapy.Field()
+    # 附加数据
+    extra_data = scrapy.Field()
+    # 评分
+    score = scrapy.Field()

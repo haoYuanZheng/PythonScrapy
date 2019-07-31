@@ -94,4 +94,4 @@ MONGODB_HOST = '127.0.0.1'
 MONGODB_PORT = 27017
 MONGODB_DBNAME = 'xiecheng'
 # MONGODB_SHEETNAME = 'resturant_detail'
-MONGODB_SHEETNAME = 'shopping_detail'
+MONGODB_SHEETNAME = 'test_table'
