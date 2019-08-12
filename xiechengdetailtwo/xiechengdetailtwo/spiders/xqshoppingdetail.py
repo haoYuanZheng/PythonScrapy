@@ -153,7 +153,6 @@ class XqshoppingdetailSpider(scrapy.Spider):
                 yield scrapy.Request(url=self.nextPageHead + endPage, callback=self.step_three, meta={'item': item},
                                      headers=self.headers)
             else:
-                item['nearby_group_buy'] = None
                 yield item
 
     # 团购tab页
@@ -162,5 +161,5 @@ class XqshoppingdetailSpider(scrapy.Spider):
         nearbyGroupBuy = response.xpath('/html/body/div[3]/div/div[1]/div[3]/ul/li/dl/dt/text()').extract()
         if nearbyGroupBuy is not None:
             nearbyGroupBuy = "|".join(nearbyGroupBuy).replace(" ", "").replace("\r\n", "")
-        item['nearby_group_buy'] = nearbyGroupBuy
+            item['nearby_group_buy'] = nearbyGroupBuy
         yield item

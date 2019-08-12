@@ -21,7 +21,7 @@ class XiechengPipeline(object):
         params = [item['detail_link'], item['area']]
         try:
             sql = self.cur.execute(
-                'insert into xqgw_detail_url(detail_link,area)values (%s,%s)',
+                'insert into qnegw_detail_url(detail_link,area)values (%s,%s)',
                 params)
             print(sql)
             self.conn.commit()

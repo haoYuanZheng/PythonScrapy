@@ -5,11 +5,11 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.conf import settings
-import pymongo
 import pymysql
+import pymongo
 
 
-class XiechengdetailtwoPipeline(object):
+class QunaeronePipeline(object):
     def __init__(self):
         host = settings["MONGODB_HOST"]
         port = settings["MONGODB_PORT"]
@@ -46,7 +46,7 @@ class ConditionChangePipeline(object):
 
         try:
             sql = self.cur.execute(
-                'update xqgw_url_single set is_download = 1 where detail_link = %s',
+                'update qnems_detail_url set is_download = 1 where detail_link = %s',
                 params)
             print(sql)
             self.conn.commit()
