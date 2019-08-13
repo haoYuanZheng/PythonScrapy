@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for qunaerone project
+# Scrapy settings for qunaertwo project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +9,14 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'qunaerone'
+BOT_NAME = 'qunaertwo'
 
-SPIDER_MODULES = ['qunaerone.spiders']
-NEWSPIDER_MODULE = 'qunaerone.spiders'
+SPIDER_MODULES = ['qunaertwo.spiders']
+NEWSPIDER_MODULE = 'qunaertwo.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'qunaerone (+http://www.yourdomain.com)'
+#USER_AGENT = 'qunaertwo (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -47,13 +47,13 @@ DOWNLOAD_DELAY = 3
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'qunaerone.middlewares.QunaeroneSpiderMiddleware': 543,
+#    'qunaertwo.middlewares.QunaertwoSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'qunaerone.middlewares.QunaeroneDownloaderMiddleware': 543,
+   'qunaertwo.middlewares.QunaertwoDownloaderMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -65,8 +65,8 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'qunaerone.pipelines.QunaeronePipeline': 300,
-   'qunaerone.pipelines.ConditionChangePipeline': 299,
+   'qunaertwo.pipelines.QunaertwoPipeline': 300,
+   'qunaertwo.pipelines.ConditionChangePipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

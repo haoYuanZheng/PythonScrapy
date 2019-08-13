@@ -6,15 +6,9 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-import time
-import requests
-import json
-from scrapy.utils.project import get_project_settings
-
-settings = get_project_settings()
 
 
-class MeituanSpiderMiddleware(object):
+class QunaertwoSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -62,7 +56,7 @@ class MeituanSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class MeituanDownloaderMiddleware(object):
+class QunaertwoDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
@@ -107,38 +101,3 @@ class MeituanDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
-
-
-class ProxyMiddleWare(object):
-    # ip_path = r'C:\python_work\supcon\Proxy.json'
-
-    # def process_request(self, request, spider):
-    #     if spider.name == 'feizhu_crawl' or spider.name == 'ctrip_comments1' or spider.name == 'meituan_comments':
-    #         host = settings['MYSQL_HOST']
-    #         url = 'http://%s:5555/random' % host
-    #         r = requests.get(url)
-    #         ip = r.text.strip()
-    #         print('当前使用的IP：', ip)
-    #         request.meta['proxy'] = 'http://'+str(ip)
-
-    ctime = 0
-
-    def process_request(self, request, spider):
-        if spider.name in ('meituanwaimai'):
-            # 时间差
-            time_subtract = time.time() - self.ctime
-            # print('时间差为：：：：：：：：：：', time_subtract)
-            if time_subtract > 30:
-                host = settings['REMOTE_REDIS_HOST']
-                url = 'http://%s:8787/random' % host
-                r = requests.get(url)
-                value = json.loads(r.text.strip())
-                self.ip = value[0].replace('3222', '12123')
-                self.ctime = value[1]
-                print('使用新IP：：：：：：：：：：：：：：', self.ip)
-                # request.meta['proxy'] = 'http://' + 'peng:1234@' + self.ip
-                request.meta['proxy'] = 'http://' + self.ip
-
-            else:
-                print('使用原IP：：：：：：：：：：：：', self.ip)
-                request.meta['proxy'] = 'http://' + self.ip

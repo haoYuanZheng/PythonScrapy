@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import scrapy
 import pymysql
-from qunaerone.items import QunaeroneItem
+from qunaertwo.items import QunaertwoItem
 
-
-class MeishiSpider(scrapy.Spider):
-    name = 'meishi'
+class GouwuSpider(scrapy.Spider):
+    name = 'gouwu'
 
     headers = {
         'authority': "travel.qunar.com",
@@ -16,7 +16,7 @@ class MeishiSpider(scrapy.Spider):
         'sec-fetch-user': "?1",
         'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
         'sec-fetch-site': "same-origin",
-        'referer': "https://travel.qunar.com/p-cs300195-hangzhou-meishi",
+        'referer': "https://travel.qunar.com/p-cs300195-hangzhou-gouwu",
         'accept-encoding': "gzip, deflate, br",
         'accept-language': "zh-CN,zh;q=0.9"
     }
@@ -27,7 +27,7 @@ class MeishiSpider(scrapy.Spider):
             self.conn = pymysql.Connect(host='localhost', user='root', password='13567651173', database='python',
                                         charset='utf8')
             cur = self.conn.cursor()
-            sql = 'select detail_link,area from qnems_detail_url where is_download = 0 limit 1'
+            sql = 'select detail_link,area from qnegw_detail_url where is_download = 0 limit 1'
             cur.execute(sql)
             self.urls = list(cur.fetchall())
         except Exception as e:
@@ -37,7 +37,7 @@ class MeishiSpider(scrapy.Spider):
     def start_requests(self):
         for url in self.urls:
             print("爬取链接::::::::" + url[0])
-            item = QunaeroneItem()
+            item = QunaertwoItem()
             item['url'] = url[0]
             item['area'] = url[1]
             yield scrapy.Request(url=url[0], callback=self.step_one, headers=self.headers, meta={'item': item})
@@ -48,11 +48,8 @@ class MeishiSpider(scrapy.Spider):
         name = response.xpath('//*[@id="js_mainleft"]/div[@class="b_title clrfix"]/h1/text()').extract_first()
         total_score = response.xpath(
             '//*[@id="js_mainleft"]/div[4]/div/div[2]/div[1]/div[1]/span[1]/text()').extract_first()
-        average_cost = response.xpath(
-            '//*[@id="js_mainleft"]/div[4]/div/div[2]/div[1]/div[2]/div[2]/text()').extract_first()
         overview = response.xpath('//*[@id="gs"]/div[1]/p/text()').extract_first()
         address = response.xpath('//*[@id="gs"]/div[2]/div[1]/table/tr/td[1]/dl[1]/dd/span/text()').extract_first()
-        phone_number = response.xpath('//*[@id="gs"]/div[2]/div[1]/table/tr/td[1]/dl[2]/dd/span/text()').extract_first()
         open_time = response.xpath('//*[@id="gs"]/div[2]/div[1]/table/tr/td[2]/dl[1]/dd/span/p/text()').extract_first()
         images = response.xpath('//*[@id="idNum"]/li/div[@class="imgbox"]/img/@src').extract()
         traffic = response.xpath('//*[@id="jtzn"]/div[2]/p/text()').extract_first()
@@ -65,14 +62,10 @@ class MeishiSpider(scrapy.Spider):
             item['name'] = name
         if total_score is not None:
             item['total_score'] = total_score
-        if average_cost is not None:
-            item['average_cost'] = average_cost
         if overview is not None:
             item['overview'] = overview
         if address is not None:
             item['address'] = address
-        if phone_number is not None:
-            item['phone_number'] = phone_number
         if open_time is not None:
             item['open_time'] = open_time
         if images is not None:
