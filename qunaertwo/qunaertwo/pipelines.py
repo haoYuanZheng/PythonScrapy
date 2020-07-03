@@ -7,6 +7,7 @@
 from scrapy.conf import settings
 import pymysql
 import pymongo
+import json
 
 
 class QunaertwoPipeline(object):
@@ -27,14 +28,19 @@ class QunaertwoPipeline(object):
 
     def process_item(self, item, spider):
         data = dict(item)
-        self.sheet.insert(data)
+        comments = data['comment']
+        if comments is not None and len(comments):
+            for com in comments:
+                need_insert = {'name': data['name'], 'scenic_id': data['scenic_id'],
+                               'comment': com['content'], 'score': com['score'], 'time': com['publishTime']}
+                self.sheet.insert(need_insert)
         return item
 
 
 class ConditionChangePipeline(object):
     def __init__(self):
         try:
-            self.conn = pymysql.Connect(host='localhost', user='root', password='13567651173', database='python',
+            self.conn = pymysql.Connect(host='localhost', port=32769, user='root', password='123456', database='python',
                                         charset='utf8')
         except Exception as e:
             print("连接数据库出错,错误原因%s" % e)
@@ -42,11 +48,11 @@ class ConditionChangePipeline(object):
 
     def process_item(self, item, spider):
         # 爬取详情页链接
-        params = [item['url']]
+        params = [item['scenic_id']]
 
         try:
             sql = self.cur.execute(
-                'update qnegw_detail_url set is_download = 1 where detail_link = %s',
+                'update xiecheng_scenic_detail_url set install = 1 where scenic_id = %s',
                 params)
             print(sql)
             self.conn.commit()
